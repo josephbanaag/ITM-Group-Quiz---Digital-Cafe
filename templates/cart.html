@@ -1,0 +1,30 @@
+{% include "header.html" %}
+
+      <h1>Cart</h1>
+
+      {% if session["cart"] is defined %}
+
+      <table>
+            <tr><th>Name</th><th>Quantity</th><th>Subtotal</th></tr>
+
+            {% for item in session["cart"].values() %}
+                  <tr>
+                        <td><input type="hidden" name="code" value={{ item["code"] }}></td>
+                        <td>{{ item["name"] }}</td>
+                        <td>{{ item["qty"] }}</td>
+                        <td>{{ item["subtotal"] }}</td>
+                        <td><a href="/removecartitem?code={{ item.code }}">Remove</a></td>
+                  </tr>
+            {% endfor %}
+
+            <tr><td colspan=2><b>Total</b></td><td><b>{{ session["cart"].values()|sum(attribute="subtotal") }}</b></td></tr>
+
+      </table>
+
+      {% else %}
+      <div>Your cart is empty</div>
+      {% endif %}
+
+      <a href="/products">Back</a>
+
+{% include "footer.html" %}
